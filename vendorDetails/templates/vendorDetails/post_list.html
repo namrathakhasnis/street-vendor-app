@@ -3,7 +3,18 @@
         <title>Street Vendor Mart</title>
     </head>
     <body>
-        <p>Hi there!</p>
-        <p>It works!</p>
+<div>
+    <h1><a href="/">STREET VENDOR MART</a></h1>
+</div>
+
+{% for post in profiles %}
+    <div>
+
+        <h2><a href="">{{ post.vendorName }}</a></h2>
+         <p>published: {{ post.created_date }}</p>
+        <p>{{ post.description|linebreaksbr }}</p>
+        <p>{{ post.phoneNumber|linebreaksbr }}</p>
+    </div>
+{% endfor %}
     </body>
 </html>
