@@ -1,0 +1,27 @@
+{% extends 'vendorDetails/index.html' %}
+{% load myfilters %}
+{% load static %}
+{% block loginBlock %}
+ <div class="container">
+
+  <form method="post">
+    {% csrf_token %}
+       <div class="text-center">
+    {% for field in form %}
+
+                            <div class="form-group">
+
+        {{ field|addclass:'form-control' }}
+                                </div>
+{% for error in field.errors %}
+           <p class="help-block text-danger" style="background-color:wheat;">{{ error }}</p>
+        {% endfor %}
+
+    {% endfor %}
+       </div>
+   <div class="text-center">
+                        <button class="btn btn-primary btn-xl text-uppercase" id="signupbutton" type="submit">Sign up</button>
+       </div>
+  </form>
+     </div>
+{% endblock %}

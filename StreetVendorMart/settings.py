@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'vendorDetails.apps.VendordetailsConfig',
+    'mapbox_location_field',
 ]
 
 MIDDLEWARE = [
@@ -50,8 +51,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+LOGIN_REDIRECT_URL = '/'
 
 ROOT_URLCONF = 'StreetVendorMart.urls'
+
+MAPBOX_KEY='pk.eyJ1IjoibmFtcmF0aGFraGFzbmlzIiwiYSI6ImNraWp6aDlpYjAzZmcydnBkb3RieGp6cHIifQ.aXTXAA25_MbvS4lEWq7Ucw'
 
 TEMPLATES = [
     {
@@ -121,3 +125,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
