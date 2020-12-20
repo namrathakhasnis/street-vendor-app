@@ -14,9 +14,25 @@ from django.contrib.auth.decorators import login_required
 def post_list(request):
     profiles = VendorProfile.objects.filter(created_date__lte=timezone.now()).order_by('created_date')
     categories = Category.objects.all()
+    if categories.count()==0:
+        newCatVeg= Category(category_name='Vegetables and Fruits', category_description='Find the best vegetable and fruits vendors')
+        newCatVeg.save()
+        newCatFood=Category(category_name='Food', category_description='Craving street food? Find the best ones near you')
+        newCatFood.save()
+        newCatClothes=Category(category_name='Jewelery', category_description='Find the best of traditional jewelery near you!')
+        newCatClothes.save()
+        newCatJewelry=Category(category_name='Clothes', category_description='Looking for some dapper clothes? Find them over here!')
+        newCatJewelry.save()
+        newCatArtiFacts=Category(category_name='Articrafts, Home-Decor and Kitchen', category_description='The tradition of India to style your living!')
+        newCatArtiFacts.save()
+        newCatBooks=Category(category_name='Books', category_description='Evoke the reader within you!')
+        newCatBooks.save()
+    categories = Category.objects.all()
+    print(categories)
     profile_with_cat_dict= {}
     for cat in categories:
         profile_with_cat_dict[int(cat.id)]=cat.profiles.all()
+    print(profile_with_cat_dict)
     if request.user.is_authenticated:
         if request.method == "POST":
             if 'bannedphrase' in request.POST:
