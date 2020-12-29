@@ -15,6 +15,7 @@ class VendorProfile(models.Model):
     categoryId = models.ForeignKey('vendorDetails.Category', verbose_name="What category of items does this vendor sell?", on_delete=models.CASCADE, related_name='profiles', default=None )
     location = LocationField()
     addressloc = models.CharField(max_length=2000000)
+    zipcodeLoc= models.CharField(max_length=100)
 
     def publish(self):
         self.created_date = timezone.now()
@@ -30,3 +31,4 @@ class Category(models.Model):
 class LocationFilterModel(models.Model):
     locationOfFilter=LocationField(map_attrs={"id": "unique_id_1"})
     locFilterAddress= models.CharField(max_length=2000000,null=True, default=None)
+    locFilterZipcodeLoc = models.CharField(max_length=100,null=True, default="")

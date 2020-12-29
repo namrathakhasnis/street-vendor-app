@@ -1,13 +1,12 @@
 {% load static %}
-{% load static %}
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>Street Vendor Mart </title>
-    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/heart1.png' %}"/>
+    <title>Street Vendor Mart Analytics </title>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/graph.svg' %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
@@ -123,30 +122,58 @@ body {
 
     </style>
 </head>
-<body id="page-top2">
+<body id="page-top">
 
-<div class="topnav" id="myTopnav2">
-    <a href= "{% url 'post_list' %}" style="color:#fbc02d; font-weight: bolder;" >Back to Home</a>
+<div class="topnav" id="myTopnav">
+    <a href="#" style="color:#fbc02d; font-weight: bolder;" >Street Vendor Mart Analytics</a>
     <div style="float:right; display: inline;">
+  <a href="#AnalyticsTable" >Heat Map of Data</a>
+  <a href="#AnalyticsBarGraph">The Analytics</a>
+  <a href="#AnalyticsScatterPlot">Category Distribution</a>
+  <a href="#NumberOfVendorsVsLocSection">Maximum Vendors in Location</a>
+     <a href=  "{% url 'post_list' %}"> Help a Vendor Now!</a>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
     <i class="fa fa-bars"></i>
   </a>
         </div>
 </div>
 
-<section class="page-section" id="VendorProfileDetailSection">
+<section class="page-section" id="AnalyticsTable">
     <div class="container">
-        {% block content %}
         <div class="text-center">
-            <h2 class="section-heading text-uppercase">Here is more about {{ post.vendorName }}</h2>
-            <h3 class="section-subheading" style="font-size: 1.3rem;">{{ post.description|linebreaksbr }} </h3>
-             <h4 class="my-3">This vendor sells: {{ post.categoryId.category_name|linebreaksbr }}</h4>
-            <img src="{{post.vendorImg.url}}" alt="Smiley face" >
-              <h4 class="my-3">Contact: {{ post.phoneNumber|linebreaksbr }}</h4>
-        <h4 class="my-3">Address: {{ post.addressloc}}</h4>
-        <h4 class="my-3">Area: {{ post.zipcodeLoc}}</h4>
+            <h2 class="section-heading text-uppercase">A Heatmap of the Vendor Statistics</h2>
+            <h3 class="section-subheading text-muted">A heat map is a data visualization technique that shows magnitude of a phenomenon as color in two dimensions. The variation in color may be by hue or intensity, giving obvious visual cues to the reader about how the phenomenon is clustered or varies over space. The background color of the Number of Vendor column is an indicative of the density of population and the font color represents the category.</h3>
+
+{{imgOfTable |safe}}
             </div>
-        {% endblock %}
+    </div>
+</section>
+<section class="page-section" id="AnalyticsBarGraph">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">A Bar Graph Visualization of the Number of Vendors in each location</h2>
+            <h3 class="section-subheading text-muted">The below is a bar graph containing the locality v/s Number of Vendors</h3>
+        <img src="{% static 'outputMap.png' %}" alt="img not found">
+
+            </div>
+    </div>
+</section>
+<section class="page-section" id="AnalyticsScatterPlot">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">A Scatter Plot of the Number of Vendors in each location and Category</h2>
+            <h3 class="section-subheading text-muted">The below is a plot containing the locality v/s Number of Vendors with color coded categories</h3>
+        <img src="{% static 'outputScatterMap.png' %}" alt="img not found">
+            </div>
+    </div>
+</section>
+<section class="page-section" id="NumberOfVendorsVsLocSection">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">A Line Graph of the Number of Vendors in each location</h2>
+            <h3 class="section-subheading text-muted">A visual aid to find the location that hosts a maximum number of vendors</h3>
+              <img src="{% static 'outputPlotForLocVsNo.png' %}" alt="img not found">
+            </div>
     </div>
 </section>
 
@@ -159,4 +186,3 @@ body {
 <!-- Core theme JS-->
 </body>
 </html>
-

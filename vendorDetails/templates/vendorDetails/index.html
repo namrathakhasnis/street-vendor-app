@@ -10,7 +10,7 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>Street Vendor Mart </title>
-    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"/>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/heart1.png' %}"/>
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -21,17 +21,19 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
     <script type="text/javascript">
-
         $(document).ready(function(){
         debugger;
-        $(this).on("reverse-geocode", function (e, map_id, input) {
+        $(this).on("reverse-geocode", function (e, map_id, input, pincode) {
         debugger;
         if(map_id=='unique_id_1')
         {
         $('#id_locFilterAddress').val(input);
+        $('#id_locFilterZipcodeLoc').val(pincode);
         }
-        else
+        else{
     $('#id_addressloc').val(input);
+    $('#id_zipcodeLoc').val(pincode);
+    }
 });
         })
     </script>
@@ -60,6 +62,7 @@
                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'login' %}">Help a vendor!</a>
                 </li>
                 {% endif %}
+                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'getAnalytics' %}">Get Analytics</a></li>
                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#team">Team</a></li>
             </ul>
         </div>
@@ -179,7 +182,7 @@
             </div>
             <div class="col-lg-4 col-sm-6 mb-4 mb-sm-0">
                 <div class="portfolio-item">
-                    <a class="portfolio-link" data-toggle="modal" href="{% url 'post_detail' pk=1 %}">
+                    <a class="portfolio-link" data-toggle="modal" href="#portfolioModal5">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
@@ -281,6 +284,11 @@
                     </div>
                      <div class="form-group">
                                 {{ form.addressloc }}
+
+                    </div>
+
+                     <div class="form-group">
+                                {{ form.zipcodeLoc }}
 
                     </div>
                 </div>
@@ -385,6 +393,10 @@
                                 {{ locForm.locFilterAddress }}
 
                     </div>
+                <div class="form-group">
+                                {{ locForm.locFilterZipcodeLoc }}
+
+                    </div>
                 <input class="btn btn-primary btn-xl text-uppercase" type="submit" name="bannedphrase" value="Apply filter">
             </form>
               {{ locForm.media }}
@@ -422,6 +434,8 @@
                         <div class="portfolio-caption-heading">{{ post.vendorName }}</div>
                         <div class="portfolio-caption-subheading text-muted">{{ post.description }}
                         </div>
+                         <div class="portfolio-caption-subheading text-muted">Area: {{ post.zipcodeLoc }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -429,202 +443,211 @@
         </div>
              </div>
 
-
-
-<!--            <div class="container">-->
-<!--                <div class="col-lg-8">-->
-<!--                    <div class="modal-body">-->
-<!--                         <div class="text-center">-->
-<!--            <h2 class="section-heading text-uppercase">Vendors who sell {{ categories.0.category_name }} near you</h2>-->
-<!--        </div>-->
-<!--                        <div class="row">-->
-<!--                        <br/>-->
-<!--                        {% for post in profiles.1 %}-->
-
-<!--&lt;!&ndash;            <div class="col-lg-4 col-sm-6 mb-4">&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="portfolio-item">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <a class="portfolio-link" data-toggle="modal" href="{% url 'post_detail' pk=post.pk %}">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="portfolio-hover">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <img class="img-fluid" src="{{post.vendorImg.url}}" alt=""/>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </a>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="portfolio-caption">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="portfolio-caption-heading">{{ post.vendorName }}</div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="portfolio-caption-subheading text-muted">{{ post.description|linebreaksbr }}&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-
-<!--            <div class="col-lg-4 col-sm-6 mb-4">-->
-
-<!--                            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.vendorName }}</a></h2>-->
-<!--                            <p>Posted date: {{ post.created_date }}</p>-->
-<!--                            <p>{{ post.description|linebreaksbr }}</p>-->
-<!--                            <p>{{ post.phoneNumber|linebreaksbr }}</p>-->
-<!--            </div>-->
-
-
-<!--                        {% endfor %}-->
-<!--                             </div>-->
-<!--                        &lt;!&ndash; <button class="btn btn-primary" data-dismiss="modal" type="button">-->
-<!--                             <i class="fas fa-times mr-1"></i>-->
-<!--                             Close Project-->
-<!--                         </button>&ndash;&gt;-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
     </div>
 </div>
 <!-- Modal 2-->
 <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+       <div class="modal-content">
             <div class="close-modal" data-dismiss="modal"><img src="{% static 'assets/img/close-icon.svg' %}"
                                                                alt="Close modal"/></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="modal-body">
-                            <div class="text-center">
-            <h2 class="section-heading text-uppercase">Vendors who sell {{ categories.1.category_name }} near you</h2>
+
+
+             <div class="container">
+        <div class="text-center">
+            <h3 class="section-subheading text-muted">Vendors who sell {{ categories.1.category_name }} near you
+
+                </h3>
         </div>
-                             {% for post in profiles.2 %}
-                        <div>
-
-                            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.vendorName }}</a></h2>
-                            <p>published: {{ post.created_date }}</p>
-                            <p>{{ post.description|linebreaksbr }}</p>
-                            <p>{{ post.phoneNumber|linebreaksbr }}</p>
+<br/>
+        <div class="row">
+            {% for post in profiles.2 %}
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <div class="portfolio-item">
+                    <a class="portfolio-link" href="{% url 'post_detail' pk=post.pk %}">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-
-                        {% endfor %}
+                        <img class="img-fluid" src="{{post.vendorImg.url}}" alt=""/>
+                    </a>
+                    <div class="portfolio-caption" style="padding: unset;">
+                        <div class="portfolio-caption-heading">{{ post.vendorName }}</div>
+                        <div class="portfolio-caption-subheading text-muted">{{ post.description }}
+                        </div>
+                         <div class="portfolio-caption-subheading text-muted">Area: {{ post.zipcodeLoc }}
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+        </div>
+             </div>
+
         </div>
     </div>
 </div>
 <!-- Modal 3-->
 <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+      <div class="modal-dialog">
+       <div class="modal-content">
             <div class="close-modal" data-dismiss="modal"><img src="{% static 'assets/img/close-icon.svg' %}"
                                                                alt="Close modal"/></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="modal-body">
-                            <div class="text-center">
-            <h2 class="section-heading text-uppercase">Vendors who sell {{ categories.2.category_name }} near you</h2>
+
+
+             <div class="container">
+        <div class="text-center">
+            <h3 class="section-subheading text-muted">Vendors who sell {{ categories.2.category_name }} near you
+
+                </h3>
         </div>
-                              {% for post in profiles.3 %}
-                        <div>
-
-                            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.vendorName }}</a></h2>
-                            <p>published: {{ post.created_date }}</p>
-                            <p>{{ post.description|linebreaksbr }}</p>
-                            <p>{{ post.phoneNumber|linebreaksbr }}</p>
+<br/>
+        <div class="row">
+            {% for post in profiles.3 %}
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <div class="portfolio-item">
+                    <a class="portfolio-link" href="{% url 'post_detail' pk=post.pk %}">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-
-                        {% endfor %}
+                        <img class="img-fluid" src="{{post.vendorImg.url}}" alt=""/>
+                    </a>
+                    <div class="portfolio-caption" style="padding: unset;">
+                        <div class="portfolio-caption-heading">{{ post.vendorName }}</div>
+                        <div class="portfolio-caption-subheading text-muted">{{ post.description }}
+                        </div>
+                         <div class="portfolio-caption-subheading text-muted">Area: {{ post.zipcodeLoc }}
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+        </div>
+             </div>
+
         </div>
     </div>
 </div>
 <!-- Modal 4-->
 <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal"><img src="{% static 'assets/img/close-icon.svg' %}"
                                                                alt="Close modal"/></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="modal-body">
-                            <div class="text-center">
-            <h2 class="section-heading text-uppercase">Vendors who sell {{ categories.3.category_name }} near you</h2>
+
+
+             <div class="container">
+        <div class="text-center">
+            <h3 class="section-subheading text-muted">Vendors who sell {{ categories.3.category_name }} near you
+
+                </h3>
         </div>
-                          {% for post in profiles.4 %}
-                        <div>
-
-                            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.vendorName }}</a></h2>
-                            <p>published: {{ post.created_date }}</p>
-                            <p>{{ post.description|linebreaksbr }}</p>
-                            <p>{{ post.phoneNumber|linebreaksbr }}</p>
+<br/>
+        <div class="row">
+            {% for post in profiles.4 %}
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <div class="portfolio-item">
+                    <a class="portfolio-link" href="{% url 'post_detail' pk=post.pk %}">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-
-                        {% endfor %}
+                        <img class="img-fluid" src="{{post.vendorImg.url}}" alt=""/>
+                    </a>
+                    <div class="portfolio-caption" style="padding: unset;">
+                        <div class="portfolio-caption-heading">{{ post.vendorName }}</div>
+                        <div class="portfolio-caption-subheading text-muted">{{ post.description }}
+                        </div>
+                         <div class="portfolio-caption-subheading text-muted">Area: {{ post.zipcodeLoc }}
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+        </div>
+             </div>
+
         </div>
     </div>
 </div>
 <!-- Modal 5-->
 <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+       <div class="modal-content">
             <div class="close-modal" data-dismiss="modal"><img src="{% static 'assets/img/close-icon.svg' %}"
                                                                alt="Close modal"/></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="modal-body">
-                            <div class="text-center">
-            <h2 class="section-heading text-uppercase">Vendors who sell {{ categories.4.category_name }} near you</h2>
+
+
+             <div class="container">
+        <div class="text-center">
+            <h3 class="section-subheading text-muted">Vendors who sell {{ categories.4.category_name }} near you
+
+                </h3>
         </div>
-                              {% for post in profiles.5 %}
-                        <div>
-
-                            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.vendorName }}</a></h2>
-                            <p>published: {{ post.created_date }}</p>
-                            <p>{{ post.description|linebreaksbr }}</p>
-                            <p>{{ post.phoneNumber|linebreaksbr }}</p>
+<br/>
+        <div class="row">
+            {% for post in profiles.5 %}
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <div class="portfolio-item">
+                    <a class="portfolio-link" href="{% url 'post_detail' pk=post.pk %}">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-
-                        {% endfor %}
+                        <img class="img-fluid" src="{{post.vendorImg.url}}" alt=""/>
+                    </a>
+                    <div class="portfolio-caption" style="padding: unset;">
+                        <div class="portfolio-caption-heading">{{ post.vendorName }}</div>
+                        <div class="portfolio-caption-subheading text-muted">{{ post.description }}
+                        </div>
+                         <div class="portfolio-caption-subheading text-muted">Area: {{ post.zipcodeLoc }}
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+        </div>
+             </div>
+
         </div>
     </div>
 </div>
 <!-- Modal 6-->
 <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+       <div class="modal-content">
             <div class="close-modal" data-dismiss="modal"><img src="{% static 'assets/img/close-icon.svg' %}"
                                                                alt="Close modal"/></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="modal-body">
-                            <div class="text-center">
-            <h2 class="section-heading text-uppercase">Vendors who sell {{ categories.5.category_name }} near you</h2>
+
+
+             <div class="container">
+        <div class="text-center">
+            <h3 class="section-subheading text-muted">Vendors who sell {{ categories.5.category_name }} near you
+
+                </h3>
         </div>
-                           {% for post in profiles.6%}
-                        <div>
-
-                            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.vendorName }}</a></h2>
-                            <p>published: {{ post.created_date }}</p>
-                            <p>{{ post.description|linebreaksbr }}</p>
-                            <p>{{ post.phoneNumber|linebreaksbr }}</p>
+<br/>
+        <div class="row">
+            {% for post in profiles.6 %}
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <div class="portfolio-item">
+                    <a class="portfolio-link" href="{% url 'post_detail' pk=post.pk %}">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-
-                        {% endfor %}
+                        <img class="img-fluid" src="{{post.vendorImg.url}}" alt=""/>
+                    </a>
+                    <div class="portfolio-caption" style="padding: unset;">
+                        <div class="portfolio-caption-heading">{{ post.vendorName }}</div>
+                        <div class="portfolio-caption-subheading text-muted">{{ post.description }}
+                        </div>
+                         <div class="portfolio-caption-subheading text-muted">Area: {{ post.zipcodeLoc }}
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+        </div>
+             </div>
+
         </div>
     </div>
 </div>

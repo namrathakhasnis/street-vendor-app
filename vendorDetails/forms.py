@@ -7,8 +7,8 @@ class VendorForm(forms.ModelForm):
 
     class Meta:
         model = VendorProfile
-        fields = ('vendorName', 'description', 'phoneNumber', 'age', 'vendorImg','location','addressloc')
+        fields = ('vendorName', 'description', 'phoneNumber', 'age', 'vendorImg','location','addressloc', 'zipcodeLoc',)
 class LocationFilterForm(forms.ModelForm):
     class Meta:
         model=LocationFilterModel
-        fields=('locationOfFilter','locFilterAddress',)
+        fields=('locationOfFilter','locFilterAddress','locFilterZipcodeLoc')
