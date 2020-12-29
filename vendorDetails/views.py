@@ -12,9 +12,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pandas.plotting import table
 import six
-import plotly
-import plotly.express as px
-import plotly.graph_objects as go
 from matplotlib.ticker import MaxNLocator
 import numpy as np
 from django.contrib.auth.decorators import login_required
