@@ -226,7 +226,7 @@ border-width: thick;
 width: 100% !important;
 }
 
-#id_addressloc, #id_locFilterAddress
+#id_addressloc, #id_locFilterAddress, #id_zipcodeLoc, #id_locFilterZipcodeLoc
 {
 display: none;
 }
