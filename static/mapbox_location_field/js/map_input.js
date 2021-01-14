@@ -115,8 +115,16 @@ if (!mapboxgl.supported()) {
                 var marker = new mapboxgl.Marker({draggable: false, color: map_attrs[id].marker_color,});
                 marker.setLngLat(e.result.geometry.coordinates)
                     .addTo(map);
-
-                $(document).trigger("reverse-geocode", [id, e.result.place_name,])
+				var zipCodeText=''
+				if(e.result.place_type=='locality')
+				{
+					zipCodeText=e.result.text;
+				}
+				else
+				{
+					zipCodeText=e.result.context[0].text;
+				}
+                $(document).trigger("reverse-geocode", [id, e.result.place_name,zipCodeText,])
             });
 
             map.on("click", function (e) {
@@ -131,13 +139,14 @@ if (!mapboxgl.supported()) {
                 $.get(url, function (data) {
                     try {
                         reverse_name = data.features[0].place_name;
+						pincode= data.features[1].text;
                     }
                     catch
                         (e) {
                         reverse_name = "undefined address";
                     }
                     geocoder.setInput(reverse_name);
-                    $(document).trigger("reverse-geocode", [id, reverse_name,]);
+                    $(document).trigger("reverse-geocode", [id, reverse_name, pincode,]);
                 });
 
             });
