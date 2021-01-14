@@ -22,7 +22,6 @@
     <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
     <script type="text/javascript">
         $(document).ready(function(){
-        $('#id_zipcodeLoc').removeAttr('required');
         $(this).on("reverse-geocode", function (e, map_id, input, pincode) {
         if(map_id=='unique_id_1')
         {
