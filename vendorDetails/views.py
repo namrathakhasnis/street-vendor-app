@@ -12,6 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pandas.plotting import table
 import six
+import  os
 from matplotlib.ticker import MaxNLocator
 import numpy as np
 from django.contrib.auth.decorators import login_required
@@ -117,7 +118,10 @@ def getPlotForLocalityAndNumber(df):
     plt.xlabel("Locality")
     plt.ylabel("Number of Vendors")
     plt.tight_layout()
-    plt.savefig("outputPlotForLocVsNo.png")
+    print(os.getcwd())
+    p1= os.getcwd()
+    #print(p1, "Hi", os.path.isdir(p1+'\static'), p1+'\static')
+    plt.savefig(p1+'\static'+"\outputPlotForLocVsNo.png")
 
 def getBarGraphAnalytics(df):
     newColsByStateForPlot = df.groupby(["Locality", "Category"])["Vendor_Name"].count()
