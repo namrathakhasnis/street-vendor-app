@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vendorDetails.apps.VendordetailsConfig',
     'mapbox_location_field',
+    'vendorDetails'
 ]
 
 MIDDLEWARE = [
