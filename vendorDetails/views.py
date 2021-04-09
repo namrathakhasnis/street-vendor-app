@@ -25,7 +25,7 @@ def post_list(request):
         newCatVeg.save()
         newCatFood=Category(category_name='Food', category_description='Craving street food? Find the best ones near you')
         newCatFood.save()
-        newCatClothes=Category(category_name='Jewelery', category_description='Find the best of traditional jewelery near you!')
+        newCatClothes=Category(category_name='Jewellery', category_description='Find the best of traditional Jewellery near you!')
         newCatClothes.save()
         newCatJewelry=Category(category_name='Clothes', category_description='Looking for some dapper clothes? Find them over here!')
         newCatJewelry.save()
@@ -57,12 +57,14 @@ def post_list(request):
                     post.creator = request.user
                     post.created_date = timezone.now()
                     post.save()
+                    print("Reached else1, is valid")
                     return redirect('post_detail', pk=post.pk)
         else:
             form = VendorForm()
             locForm=LocationFilterForm()
     else:
             form=None
+            print("Reached else 3")
             locForm=None
     return render(request, 'vendorDetails/index.html', {'profiles': profile_with_cat_dict, 'form': form, 'categories': categories, 'locForm': locForm})
 def post_detail(request, pk):
