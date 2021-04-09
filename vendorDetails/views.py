@@ -117,7 +117,7 @@ def getPlotForLocalityAndNumber(df):
     plt.xlabel("Locality")
     plt.ylabel("Number of Vendors")
     plt.tight_layout()
-    plt.savefig("vendorDetails/static/outputPlotForLocVsNo.png")
+    plt.savefig("outputPlotForLocVsNo.png")
 
 def getBarGraphAnalytics(df):
     newColsByStateForPlot = df.groupby(["Locality", "Category"])["Vendor_Name"].count()
@@ -128,7 +128,7 @@ def getBarGraphAnalytics(df):
     fig = dfForPlot.plot(kind="bar", figsize=(9, 6)).get_figure()
     #plt.yticks([])
     plt.tight_layout()
-    fig.savefig("vendorDetails/static/outputMap.png")
+    fig.savefig("outputMap.png")
 def getScatterPlot(profiles):
     df = pd.DataFrame({
         'Date_of_entry': [val['created_date'].date() for val in profiles],
@@ -163,7 +163,7 @@ def getScatterPlot(profiles):
     plt.ylabel("Number of Vendors")
     #plt.yticks([])
     plt.tight_layout()
-    plt.savefig("vendorDetails/static/outputScatterMap.png")
+    plt.savefig("outputScatterMap.png")
 
 def SaveTableAsImage(aStateAndCategoryRepresentation, df):
     size = (np.array(aStateAndCategoryRepresentation.shape[::-1]) + np.array([0, 1])) * np.array([3.0, 0.625])
