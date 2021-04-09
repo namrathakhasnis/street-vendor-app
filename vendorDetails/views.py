@@ -120,8 +120,9 @@ def getPlotForLocalityAndNumber(df):
     plt.tight_layout()
     print(os.getcwd())
     p1= os.getcwd()
-    #print(p1, "Hi", os.path.isdir(p1+'\static'), p1+'\static')
-    plt.savefig(p1+'\static'+"\outputPlotForLocVsNo.png")
+    print(p1, "Hi", os.path.isdir(os.path.join(p1, "static")), os.path.join(p1, "static"))
+    p2=os.path.join(p1, "static")
+    plt.savefig(p2+"\outputPlotForLocVsNo.png")
 
 def getBarGraphAnalytics(df):
     newColsByStateForPlot = df.groupby(["Locality", "Category"])["Vendor_Name"].count()
