@@ -153,7 +153,7 @@ body {
         <div class="text-center">
             <h2 class="section-heading text-uppercase">A Bar Graph Visualization of the Number of Vendors in each location</h2>
             <h3 class="section-subheading text-muted">The below is a bar graph containing the locality v/s Number of Vendors</h3>
-        <img src="{% static 'outputMap.png' %}" alt="img not found">
+        <img src="data:image/png;base64, {{barGraph|safe}}" alt="img not found">
 
             </div>
     </div>
@@ -163,7 +163,7 @@ body {
         <div class="text-center">
             <h2 class="section-heading text-uppercase">A Scatter Plot of the Number of Vendors in each location and Category</h2>
             <h3 class="section-subheading text-muted">The below is a plot containing the locality v/s Number of Vendors with color coded categories</h3>
-        <img src="{% static 'outputScatterMap.png' %}" alt="img not found">
+        <img src="data:image/png;base64, {{scatterPlot|safe}}" alt="img not found">
             </div>
     </div>
 </section>
@@ -172,7 +172,7 @@ body {
         <div class="text-center">
             <h2 class="section-heading text-uppercase">A Line Graph of the Number of Vendors in each location</h2>
             <h3 class="section-subheading text-muted">A visual aid to find the location that hosts a maximum number of vendors</h3>
-              <img src="{% static 'outputPlotForLocVsNo.png' %}" alt="img not found">
+              <img src="data:image/png;base64, {{localityGraph|safe}}" alt="img not found">
             </div>
     </div>
 </section>

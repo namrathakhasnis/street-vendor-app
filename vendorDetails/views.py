@@ -15,6 +15,8 @@ import six
 import  os
 from matplotlib.ticker import MaxNLocator
 import numpy as np
+import base64
+from io import BytesIO
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -99,42 +101,51 @@ def getAnalytics(request):
             'Category': [  get_object_or_404(Category, pk=val['categoryId_id']).category_name for val in profiles ],
             'Vendor_Name':[val['vendorName'] for val in profiles]
     })
-    getBarGraphAnalytics(df)
-    getScatterPlot(profiles)
-    getPlotForLocalityAndNumber(df)
     aStateAndCategoryRepresentation=df.groupby(["Locality", "Category"], as_index=False)["Vendor_Name"].count()
     aStateAndCategoryRepresentation.columns.values[2]='Number of Vendors'
     aStateAndCategoryRepresentation.loc[df.duplicated('Locality') , 'Locality'] = ''
     htmlTable=getTableAsHeatMap(aStateAndCategoryRepresentation)
+    localityGraph= getPlotBytesFormatForLocalityAndNumber(df)
+    barGraph= getBarGraphAnalyticsByBytes(df)
+    scatterPlot= getScatterPlotByBytes(profiles)
+    return render(request, 'vendorDetails/getAnalytics.html', {'imgOfTable': htmlTable, 'localityGraph': localityGraph, 'barGraph': barGraph, 'scatterPlot': scatterPlot})
 
-    return render(request, 'vendorDetails/getAnalytics.html', {'imgOfTable': htmlTable})
-
-def getPlotForLocalityAndNumber(df):
+def getPlotBytesFormatForLocalityAndNumber(df):
     n_by_state = df.groupby(["Locality"], as_index=False)["Vendor_Name"].count()
     n_by_state.columns.values[1] = 'Number_of_Vendors'
-    print(n_by_state)
     plt.clf()
     plt.plot(n_by_state.Locality, n_by_state.Number_of_Vendors)
+    plt.xticks(rotation=90)
     plt.xlabel("Locality")
     plt.ylabel("Number of Vendors")
     plt.tight_layout()
-    print(os.getcwd())
-    p1= os.getcwd()
-    print(p1, "Hi", os.path.isdir(os.path.join(p1, "static")), os.path.join(p1, "static"))
-    p2=os.path.join(p1, "static")
-    plt.savefig(p2+"\outputPlotForLocVsNo.png")
+    buffer= BytesIO()
+    plt.savefig(buffer, format= "png")
+    buffer.seek(0)
+    image_png=buffer.getvalue()
+    graph= base64.b64encode(image_png)
+    graph= graph.decode('utf-8')
+    buffer.close()
+    return  graph
 
-def getBarGraphAnalytics(df):
+def getBarGraphAnalyticsByBytes(df):
     newColsByStateForPlot = df.groupby(["Locality", "Category"])["Vendor_Name"].count()
     dfForPlot = newColsByStateForPlot.unstack(level=-1)
     dfForPlot.fillna(value=0, inplace=True)
     dfForPlot.replace(np.nan, 0)
     print(dfForPlot)
     fig = dfForPlot.plot(kind="bar", figsize=(9, 6)).get_figure()
-    #plt.yticks([])
     plt.tight_layout()
-    fig.savefig("outputMap.png")
-def getScatterPlot(profiles):
+    buffer= BytesIO()
+    fig.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    graph = base64.b64encode(image_png)
+    graph = graph.decode('utf-8')
+    buffer.close()
+    return graph
+
+def getScatterPlotByBytes(profiles):
     df = pd.DataFrame({
         'Date_of_entry': [val['created_date'].date() for val in profiles],
         'Locality': [val['zipcodeLoc'] for val in profiles],
@@ -164,11 +175,18 @@ def getScatterPlot(profiles):
     plt.scatter(subset_e.Locality, subset_e.Number_of_Vendors,  c='blue', label='Category= Books')
     plt.scatter(subset_f.Locality, subset_f.Number_of_Vendors,  c='black', label='Category= Clothes')
     plt.legend()
+    plt.xticks(rotation=90)
     plt.xlabel("Locality")
     plt.ylabel("Number of Vendors")
-    #plt.yticks([])
     plt.tight_layout()
-    plt.savefig("outputScatterMap.png")
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    graph = base64.b64encode(image_png)
+    graph = graph.decode('utf-8')
+    buffer.close()
+    return graph
 
 def SaveTableAsImage(aStateAndCategoryRepresentation, df):
     size = (np.array(aStateAndCategoryRepresentation.shape[::-1]) + np.array([0, 1])) * np.array([3.0, 0.625])
